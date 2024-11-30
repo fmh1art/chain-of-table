@@ -16,6 +16,12 @@
 import fire
 import os
 
+# os.environ["OPENAI_BASE_URL"] = "https://35.aigcbest.top/v1"
+# os.environ["OPENAI_API_KEY"] = "sk-FFKWZBABit04gE1C66D5A18d0c0943E18c83188375C21b57"
+
+os.environ["OPENAI_BASE_URL"] = "https://api.deepseek.com"
+os.environ["OPENAI_API_KEY"] = "sk-452cf7b318714c3094bdc6c0b4d26973"
+
 from utils.load_data import load_tabfact_dataset
 from utils.llm import ChatGPT
 from utils.helper import *
@@ -25,10 +31,11 @@ from operations import *
 
 
 def main(
-    dataset_path: str = "data/tabfact/test.jsonl",
-    raw2clean_path: str ="data/tabfact/raw2clean.jsonl",
-    model_name: str = "gpt-3.5-turbo-16k-0613",
-    result_dir: str = "results/tabfact",
+    dataset_path: str = "data/tabfact/test_prep.jsonl",
+    raw2clean_path: str ="data/tabfact/raw2clean_prep.jsonl",
+    # model_name: str = "gpt-3.5-turbo-16k-0613",
+    model_name: str = "deepseek-chat",
+    result_dir: str = "results/tabfact/deepseek_prep",
     openai_api_key: str = None,
     first_n=-1,
     n_proc=1,
@@ -38,6 +45,7 @@ def main(
     gpt_llm = ChatGPT(
         model_name=model_name,
         key=os.environ["OPENAI_API_KEY"] if openai_api_key is None else openai_api_key,
+        url=os.environ["OPENAI_BASE_URL"],
     )
     os.makedirs(result_dir, exist_ok=True)
 

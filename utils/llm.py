@@ -19,9 +19,10 @@ import numpy as np
 
 
 class ChatGPT:
-    def __init__(self, model_name, key):
+    def __init__(self, model_name, key, url="https://35.aigcbest.top/v1"):
         self.model_name = model_name
         self.key = key
+        self.url = url
 
     def get_model_options(
         self,
@@ -32,7 +33,7 @@ class ChatGPT:
     ):
         return dict(
             temperature=temperature,
-            n=n_sample,
+            n=n_sample if 'deepseek' not in self.model_name else 1,
             top_p=per_example_top_p,
             max_tokens=per_example_max_decode_steps,
         )
@@ -53,6 +54,7 @@ class ChatGPT:
         error = None
         while gpt_responses is None:
             try:
+                openai.api_base = self.url
                 gpt_responses = openai.ChatCompletion.create(
                     model=self.model_name,
                     messages=messages,

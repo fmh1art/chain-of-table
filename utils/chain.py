@@ -27,7 +27,7 @@ import multiprocessing as mp
 from operations import *
 
 
-def fixed_chain_exec_mp(llm, init_samples, fixed_op_list, n_proc=10, chunk_size=50):
+def fixed_chain_exec_mp(llm, init_samples, fixed_op_list, n_proc=30, chunk_size=50):
     history = {}
     final_result = None
 
@@ -91,7 +91,7 @@ def _conduct_single_solver_mp_core(arg):
 
 
 def conduct_single_solver_mp(
-    llm, all_samples, solver_func, tqdm_tag=None, n_proc=10, chunk_size=50, **kwargs
+    llm, all_samples, solver_func, tqdm_tag=None, n_proc=30, chunk_size=50, **kwargs
 ):
     result_samples = [None for _ in range(len(all_samples))]
 
@@ -174,8 +174,6 @@ def get_table_log(sample, skip_op=[], first_n_op=None):
 
 
 # Dynmiac Chain Func
-
-
 plan_add_column_demo = """If the table does not have the needed column to tell whether the statement is True or False, we use f_add_column() to add a new column for it. For example,
 /*
 col : rank | lane | player | time
@@ -612,7 +610,7 @@ def dynamic_chain_exec_with_cache_mp(
     llm_options=None,
     strategy="voting",
     cache_dir="./results/debug",
-    n_proc=10,
+    n_proc=30,
     chunk_size=50,
 ):
     os.makedirs(cache_dir, exist_ok=True)
